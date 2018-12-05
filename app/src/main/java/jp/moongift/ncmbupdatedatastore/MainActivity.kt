@@ -46,10 +46,12 @@ class MainActivity : AppCompatActivity() {
         var btnSave : Button = findViewById(R.id.btnSave)
         btnSave.setOnClickListener {
             objMemo.put("Memo", txtMemo.text.toString())
-            var acl = NCMBAcl()
-            acl.setReadAccess(NCMBUser.getCurrentUser().objectId, true)
-            acl.setWriteAccess(NCMBUser.getCurrentUser().objectId, true)
-            objMemo.acl = acl
+            if (objMemo.objectId == null) {
+                var acl = NCMBAcl()
+                acl.setReadAccess(NCMBUser.getCurrentUser().objectId, true)
+                acl.setWriteAccess(NCMBUser.getCurrentUser().objectId, true)
+                objMemo.acl = acl
+            }
             objMemo.saveInBackground { e ->
                 if (e != null) {
                     Log.d("[Error]", e.toString())
